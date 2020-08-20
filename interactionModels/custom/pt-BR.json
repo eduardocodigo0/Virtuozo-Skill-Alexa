@@ -1,0 +1,162 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "virtuoso gestão empresarial",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+            "sai",
+            "cancela",
+            "cancelar",
+            "sair",
+            "não"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "precoIntent",
+          "slots": [
+            {
+              "name": "produto",
+              "type": "AMAZON.Food"
+            }
+          ],
+          "samples": [
+            "quanto ta a {produto}",
+            "quanto vale o {produto}",
+            "quanto vale a {produto}",
+            "a {produto} ta quanto",
+            "qual o preço da {produto}",
+            "qual o preço do {produto}",
+            "o {produto} ta quanto",
+            "quanto ta o {produto}"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "listarClientesIntent",
+          "slots": [],
+          "samples": [
+            "mostra os clientes",
+            "me mostre os clientes",
+            "quem são meus clientes",
+            "quais são os clientes",
+            "liste os clientes",
+            "mostre os clientes"
+          ]
+        },
+        {
+          "name": "faturaIntent",
+          "slots": [],
+          "samples": [
+            "Quais as faturas",
+            "mostre as faturas",
+            "exiba as faturas",
+            "fale o valor das minhas faturas",
+            "mostre minhas faturas",
+            "Quais minhas faturas a pagar"
+          ]
+        },
+        {
+          "name": "pagamentoHojeIntent",
+          "slots": [],
+          "samples": [
+            "tem alguma parcela pra pagar hoje",
+            "tem alguma conta pra pagar hoje",
+            "tem alguma coisa pra pagar hoje",
+            "hoje tenho alguma conta a pagar",
+            "hoje tem algum pagamento pra fazer",
+            "hoje tem fatura",
+            "alguma fatura pra pagar hoje",
+            "Algum pagamento para fazer hoje",
+            "Tem pagamentos pra fazer hoje",
+            "Quais são as contas a pagar hoje",
+            "Tem algum pagamento para fazer hoje"
+          ]
+        },
+        {
+          "name": "pagamentoNoPeriodoIntent",
+          "slots": [
+            {
+              "name": "momento",
+              "type": "momento"
+            }
+          ],
+          "samples": [
+            "Me mostra os pagamentos que eu fiz no {momento}",
+            "Me mostra as contas que eu já paguei no {momento}",
+            "Quais os pagamentos realizados no {momento}",
+            "Quais os pagamentos feitos na {momento}",
+            "Quais os pagamentos feitos no {momento}",
+            "quantos pagamentos eu fiz essa {momento}",
+            "quantos pagamentos eu fiz esse {momento}",
+            "quantos pagamentos eu fiz {momento}"
+          ]
+        },
+        {
+          "name": "estoqueIntent",
+          "slots": [
+            {
+              "name": "codigo",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "qual o estoque do produto {codigo}",
+            "qual é o estoque do produto com código {codigo}",
+            "qual é o meu estoque do produto com código {codigo}",
+            "mostre o estoque do produto  {codigo}",
+            "qual é o meu estoque do produto {codigo}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "values": [
+            {
+              "id": "4",
+              "name": {
+                "value": "ano"
+              }
+            },
+            {
+              "id": "3",
+              "name": {
+                "value": "mês"
+              }
+            },
+            {
+              "id": "2",
+              "name": {
+                "value": "semana"
+              }
+            },
+            {
+              "id": "1",
+              "name": {
+                "value": "dia",
+                "synonyms": [
+                  "agora",
+                  "hoje"
+                ]
+              }
+            }
+          ],
+          "name": "momento"
+        }
+      ]
+    }
+  },
+  "version": "29"
+}

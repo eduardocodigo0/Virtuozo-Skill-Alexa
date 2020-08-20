@@ -1,0 +1,83 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "pt-BR": {
+          "summary": "Tenha relatorios da sua conta viirtuozo",
+          "examplePhrases": [
+            "Alexa, abra o virtuozo gestão empresarial",
+            "quanto custa a pera",
+            "mostre os clientes"
+          ],
+          "keywords": [
+            "virtuozo",
+            "empresas",
+            "gestão",
+            "frente",
+            "de",
+            "caixa"
+          ],
+          "name": "Virtuozo gestão empresarial",
+          "description": "Diga: \"Alexa, abra o virtuozo gestão empresarial\nExemplos:\n\"Qual o preco da laranja?\"\n\"Mostre os clientes\"\n\"Tem alguma conta pra pagar hoje?\"",
+          "smallIconUri": "file://assets/images/pt-BR_smallIconUri.png",
+          "updatesDescription": "Agora podemos ver as parcelas a pagar no dia de hoje",
+          "largeIconUri": "file://assets/images/pt-BR_largeIconUri.png"
+        }
+      },
+      "automaticDistribution": {
+        "isActive": false
+      },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "Diga:\" Alexa, abra o Virtuozo Gestão Empresarial\" para ativar\npergunte qual o valor da laranja.\nmande listar as faturas.\npergunte sobre as contas a pagar hoje.",
+      "category": "BUSINESS_AND_FINANCE",
+      "distributionMode": "PUBLIC",
+      "distributionCountries": [
+        "BR"
+      ]
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:459490059175:function:770dc675-c93d-4258-90d2-e1f1d3f82060:Release_0"
+        },
+        "interfaces": [],
+        "regions": {
+          "EU": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:eu-west-1:459490059175:function:770dc675-c93d-4258-90d2-e1f1d3f82060:Release_0"
+            }
+          },
+          "NA": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-east-1:459490059175:function:770dc675-c93d-4258-90d2-e1f1d3f82060:Release_0"
+            }
+          },
+          "FE": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-west-2:459490059175:function:770dc675-c93d-4258-90d2-e1f1d3f82060:Release_0"
+            }
+          }
+        }
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [
+      {
+        "name": "alexa::profile:email:read"
+      }
+    ],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "locales": {
+        "pt-BR": {
+          "termsOfUseUrl": "https://www.virtuozo.com.br/politica-de-privacidade",
+          "privacyPolicyUrl": "https://www.virtuozo.com.br/politica-de-privacidade"
+        }
+      },
+      "containsAds": false,
+      "isExportCompliant": true,
+      "isChildDirected": false,
+      "usesPersonalInfo": true
+    }
+  }
+}
