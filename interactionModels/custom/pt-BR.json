@@ -9,8 +9,7 @@
             "sai",
             "cancela",
             "cancelar",
-            "sair",
-            "não"
+            "sair"
           ]
         },
         {
@@ -22,39 +21,8 @@
           "samples": []
         },
         {
-          "name": "precoIntent",
-          "slots": [
-            {
-              "name": "produto",
-              "type": "AMAZON.Food"
-            }
-          ],
-          "samples": [
-            "quanto ta a {produto}",
-            "quanto vale o {produto}",
-            "quanto vale a {produto}",
-            "a {produto} ta quanto",
-            "qual o preço da {produto}",
-            "qual o preço do {produto}",
-            "o {produto} ta quanto",
-            "quanto ta o {produto}"
-          ]
-        },
-        {
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []
-        },
-        {
-          "name": "listarClientesIntent",
-          "slots": [],
-          "samples": [
-            "mostra os clientes",
-            "me mostre os clientes",
-            "quem são meus clientes",
-            "quais são os clientes",
-            "liste os clientes",
-            "mostre os clientes"
-          ]
         },
         {
           "name": "faturaIntent",
@@ -109,15 +77,159 @@
           "slots": [
             {
               "name": "codigo",
+              "type": "AMAZON.PhoneNumber"
+            }
+          ],
+          "samples": [
+            "qual o estoque do item {codigo}",
+            "mostre o estoque do item  {codigo}",
+            "qual é o meu estoque do item {codigo}"
+          ]
+        },
+        {
+          "name": "NovoProdutoIntent",
+          "slots": [
+            {
+              "name": "a",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "b",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "c",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "d",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "e",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "f",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "g",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "h",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "i",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "j",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "k",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "l",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "m",
               "type": "AMAZON.NUMBER"
             }
           ],
           "samples": [
-            "qual o estoque do produto {codigo}",
-            "qual é o estoque do produto com código {codigo}",
-            "qual é o meu estoque do produto com código {codigo}",
-            "mostre o estoque do produto  {codigo}",
-            "qual é o meu estoque do produto {codigo}"
+            "cadastra um produto com o código {a} {b} {c} {d} {e} {f} {g} {h} {i} {j} {k} {l} {m}",
+            "criar novo produto com o código {a} {b} {c} {d} {e} {f} {g} {h} {i} {j} {k} {l} {m}"
+          ]
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": [
+            "sim"
+          ]
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": [
+            "não"
+          ]
+        },
+        {
+          "name": "cadastrarPessoaIntent",
+          "slots": [
+            {
+              "name": "cpf_um",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cpf_dois",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cpf_tres",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cpf_quatro",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "cadastra uma nova pessoa física com cpf {cpf_um} {cpf_dois} {cpf_tres} {cpf_quatro}",
+            "cadastra uma pessoa física com cpf {cpf_um} {cpf_dois} {cpf_tres} {cpf_quatro}",
+            "cadastre uma pessoa física com cpf {cpf_um} {cpf_dois} {cpf_tres} {cpf_quatro}"
+          ]
+        },
+        {
+          "name": "cadastrarPessoaJuridicaIntent",
+          "slots": [
+            {
+              "name": "cnpj_um",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_dois",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_tres",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_quatro",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_cinco",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "cadastra uma pessoa jurídica com cnpj {cnpj_um} {cnpj_dois} {cnpj_tres} {cnpj_quatro} {cnpj_cinco}",
+            "cadastre uma pessoa jurídica com cnpj {cnpj_um} {cnpj_dois} {cnpj_tres} {cnpj_quatro} {cnpj_cinco}",
+            "cadastra uma nova pessoa jurídica com cnpj {cnpj_um} {cnpj_dois} {cnpj_tres} {cnpj_quatro} {cnpj_cinco}"
+          ]
+        },
+        {
+          "name": "dinheiroIntent",
+          "slots": [
+            {
+              "name": "reais",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "centavos",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "o preço é {reais}  {centavos} ",
+            "o valor é {reais}  {centavos} "
           ]
         }
       ],
@@ -158,5 +270,5 @@
       ]
     }
   },
-  "version": "29"
+  "version": "60"
 }
