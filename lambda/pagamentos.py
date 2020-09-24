@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "1234"
-codEmpresa = "716001"
-codApp = "12"
+chave_sistema = "xxx"
+codEmpresa = "xxx"
+codApp = "xxx"
 
 url_base = "https://app.teste.virtuozo.com.br/api/v1/"
 
