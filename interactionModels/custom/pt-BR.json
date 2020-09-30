@@ -231,6 +231,54 @@
             "o preço é {reais}  {centavos} ",
             "o valor é {reais}  {centavos} "
           ]
+        },
+        {
+          "name": "custoProdutoIntent",
+          "slots": [
+            {
+              "name": "produto",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "quanto custa a {produto}",
+            "qual o preço da {produto}",
+            "qual o preço do {produto}",
+            "Qual é o preço da {produto}",
+            "Quanto custa o {produto}",
+            "Qual é o preço do {produto}"
+          ]
+        },
+        {
+          "name": "cobrancaIntent",
+          "slots": [
+            {
+              "name": "periodo",
+              "type": "periodo"
+            }
+          ],
+          "samples": [
+            "cobrar todos que estão me devendo {periodo}",
+            " fazer cobrança para todos que estão me devendo {periodo}"
+          ]
+        },
+        {
+          "name": "meioIntent",
+          "slots": [
+            {
+              "name": "meio",
+              "type": "meio"
+            }
+          ],
+          "samples": [
+            "cobre por {meio}",
+            "cobra por {meio}",
+            "cobrar por {meio}",
+            "cobra pelo {meio}",
+            "cobrar via {meio}",
+            "cobre via {meio}",
+            "faça a cobrança via {meio}"
+          ]
         }
       ],
       "types": [
@@ -266,9 +314,65 @@
             }
           ],
           "name": "momento"
+        },
+        {
+          "values": [
+            {
+              "id": "2",
+              "name": {
+                "value": "nesse ano",
+                "synonyms": [
+                  "no último ano"
+                ]
+              }
+            },
+            {
+              "id": "1",
+              "name": {
+                "value": "nos últimos dois mêses",
+                "synonyms": [
+                  "nos últimos sessenta dias"
+                ]
+              }
+            },
+            {
+              "id": "0",
+              "name": {
+                "value": "no último mês",
+                "synonyms": [
+                  "nos últimos 30 dias",
+                  "nesse mês"
+                ]
+              }
+            }
+          ],
+          "name": "periodo"
+        },
+        {
+          "values": [
+            {
+              "id": "2",
+              "name": {
+                "value": "e-mail"
+              }
+            },
+            {
+              "id": "1",
+              "name": {
+                "value": "sms"
+              }
+            },
+            {
+              "id": "0",
+              "name": {
+                "value": "whatsapp"
+              }
+            }
+          ],
+          "name": "meio"
         }
       ]
     }
   },
-  "version": "60"
+  "version": "76"
 }

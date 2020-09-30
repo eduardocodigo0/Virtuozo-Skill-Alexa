@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "xxx"
-codEmpresa = "xxx"
-codApp = "xxx"
+chave_sistema = "XXXX"
+codEmpresa = "XXXXXXX"
+codApp = "XX"
 
 url_base = "https://app.teste.virtuozo.com.br/api/v1/"
 
@@ -38,6 +38,7 @@ imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2
 Estado 0 = Estado Inicial.
 Estado 100 = Estado de confirmacao de cadastro de pessoa.
 Estado 200 = Estado de confirmacao de cadastro de produto.
+Estado 300 = Estado de conformacao de cobranca
 '''
 
 #=========INTENTS============================================================
@@ -79,6 +80,12 @@ from cadastro_de_produto import NovoProdutoIntentHandler
 
 from dinheiro import dinheiroIntentHandler
 
+from valor_produto import custoProdutoIntentHandler
+
+from cobranca import cobrancaIntentHandler
+from cobranca import meioIntentHandler
+
+
 #=== Classes Padrao===
 from classes_padrao import HelpIntentHandler
 from classes_padrao import IntentReflectorHandler
@@ -94,6 +101,7 @@ sb = SkillBuilder()
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(YesIntentHandler())
 sb.add_request_handler(NoIntentHandler())
+sb.add_request_handler(custoProdutoIntentHandler())
 sb.add_request_handler(NovoProdutoIntentHandler())
 sb.add_request_handler(estoqueIntentHandler())
 sb.add_request_handler(dinheiroIntentHandler())
@@ -102,6 +110,8 @@ sb.add_request_handler(cadastrarPessoaJuridicaIntentHandler())
 sb.add_request_handler(faturasHandler())
 sb.add_request_handler(pagamentoHojeHandler())
 sb.add_request_handler(pagamentoNoPeriodoHandler())
+sb.add_request_handler(cobrancaIntentHandler())
+sb.add_request_handler(meioIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())

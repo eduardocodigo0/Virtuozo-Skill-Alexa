@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "xxx"
-codEmpresa = "xxx"
-codApp = "xxx"
+chave_sistema = "XXXX"
+codEmpresa = "XXXXXX"
+codApp = "XX"
 
 url_base = "https://app.teste.virtuozo.com.br/api/v1/"
 
@@ -107,7 +107,7 @@ class pagamentoNoPeriodoHandler(AbstractRequestHandler):
                     
                 reais = round(int(valor))
                 centavos = int((valor - reais) * 100)
-                centavos = str(round(centavos))
+                centavos = str(centavos)
                 reais = str(reais)
                 
                 card_text = card_text + "\n\nValor: R${0}   Fornecedor: {1}".format(parcela['valorParcela'][:-1], parcela['razaoSocial'])

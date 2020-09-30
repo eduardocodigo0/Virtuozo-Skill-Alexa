@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "xxx"
-codEmpresa = "xxx"
-codApp = "xxx"
+chave_sistema = "xxxx"
+codEmpresa = "xxxxx"
+codApp = "xx"
 
 url_base = "https://app.teste.virtuozo.com.br/api/v1/"
 
@@ -58,7 +58,7 @@ class NovoProdutoIntentHandler(AbstractRequestHandler):
         body = {
             "Datasets": "basic_data",
             "q": "ean{"+codigo+"}",
-            "AccessToken": "xxx"
+            "AccessToken": "XXXX"
         }
             
         url = "https://bigboost.bigdatacorp.com.br/products"

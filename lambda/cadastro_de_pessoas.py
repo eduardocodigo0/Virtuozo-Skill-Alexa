@@ -21,9 +21,9 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "xxx"
-codEmpresa = "xxx"
-codApp = "xxx"
+chave_sistema = "X"
+codEmpresa = "X"
+codApp = "X"
 
 url_base = "https://app.teste.virtuozo.com.br/api/v1/"
 
@@ -89,7 +89,7 @@ class cadastrarPessoaJuridicaIntentHandler(AbstractRequestHandler):
         body = {
             "Datasets": "basic_data, addresses_extended, emails_extended",
             "q": "doc{"+documento+"}",
-            "AccessToken": "xxx"
+            "AccessToken": "fbcaf2bd-9ab9-48d3-aaf2-ab60acb43540"
         }
         
         url = "https://bigboost.bigdatacorp.com.br/companies"
@@ -175,7 +175,7 @@ class cadastrarPessoaIntentHandler(AbstractRequestHandler):
             body = {
                 "Datasets": "basic_data, addresses_extended, emails_extended",
                 "q": "doc{" + documento + "}",
-                "AccessToken": "xxx"
+                "AccessToken": "XXX"
             }
             
             url = "https://bigboost.bigdatacorp.com.br/peoplev2"
