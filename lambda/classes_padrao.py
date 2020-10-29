@@ -21,15 +21,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "XXXX"
-codEmpresa = "XXXXXX"
-codApp = "XX"
-
-url_base = "https://app.teste.virtuozo.com.br/api/v1/"
-
-
-imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2N6x19.png")
-
 
 class HelpIntentHandler(AbstractRequestHandler):
     """Handler for Help Intent."""

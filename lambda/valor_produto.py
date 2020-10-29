@@ -21,14 +21,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "XXXX"
-codEmpresa = "XXXXXX"
-codApp = "XX"
 
-url_base = "https://app.teste.virtuozo.com.br/api/v1/"
-
-
-imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2N6x19.png")
 
 
 class custoProdutoIntentHandler(AbstractRequestHandler):
@@ -41,8 +34,12 @@ class custoProdutoIntentHandler(AbstractRequestHandler):
         
         speak_output = ""
         card_text = ""
+        session_attr = handler_input.attributes_manager.session_attributes
         slots = handler_input.request_envelope.request.intent.slots
         produto = slots['produto'].value
+
+        chave_sistema = session_attr['chave_sistema']
+        codEmpresa = session_attr['cod_empresa'] 
         
         header =  {
 
@@ -58,7 +55,7 @@ class custoProdutoIntentHandler(AbstractRequestHandler):
 
         }
         
-        url = "http://app.teste.virtuozo.com.br/api/v1/produtos"
+        url = session_attr['base_url'] + "/produtos"
         resposta = requests.get(url, headers=header, params=params)
         
         if resposta.status_code == 200:
@@ -127,7 +124,7 @@ class custoProdutoIntentHandler(AbstractRequestHandler):
         return (
                 handler_input.response_builder
                 .speak(speak_output)
-                .set_card(StandardCard("Produtos", card_text, imagem_padrao))
+                .set_card(StandardCard("Produtos", card_text, session_attr['imagem_padrao']))
                 .ask("Posso ajudar em mais alguma coisa?")
                 .response
             )

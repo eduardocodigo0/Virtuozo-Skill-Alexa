@@ -81,9 +81,8 @@
             }
           ],
           "samples": [
-            "qual o estoque do item {codigo}",
-            "mostre o estoque do item  {codigo}",
-            "qual é o meu estoque do item {codigo}"
+            "mostra o estoque do item {codigo}",
+            "mostre o estoque do item {codigo}"
           ]
         },
         {
@@ -228,8 +227,14 @@
             }
           ],
           "samples": [
-            "o preço é {reais}  {centavos} ",
-            "o valor é {reais}  {centavos} "
+            "o valor é  {centavos} centavos",
+            "o preço é  {centavos} centavos",
+            "o valor é {reais} reais",
+            "o preço é {reais} reais ",
+            "o valor é {reais} reais e  {centavos} centavos",
+            "o preço é {reais} reais e  {centavos} centavos",
+            "o preço é {reais}  e  {centavos} ",
+            "o valor é {reais} e  {centavos} "
           ]
         },
         {
@@ -278,6 +283,257 @@
             "cobrar via {meio}",
             "cobre via {meio}",
             "faça a cobrança via {meio}"
+          ]
+        },
+        {
+          "name": "compraIntent",
+          "slots": [],
+          "samples": [
+            "iniciar venda",
+            "fazer venda",
+            "iniciar uma venda",
+            "fazer uma venda"
+          ]
+        },
+        {
+          "name": "cancelaCompraIntent",
+          "slots": [],
+          "samples": [
+            "desistir da venda"
+          ]
+        },
+        {
+          "name": "addProdutoIntent",
+          "slots": [
+            {
+              "name": "produto",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "inserir produto {produto}",
+            "adicionar produto {produto}",
+            "adicionar o produto {produto}",
+            "inserir o produto {produto}"
+          ]
+        },
+        {
+          "name": "escolheProdutoIntent",
+          "slots": [
+            {
+              "name": "item",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "a número {item}",
+            "o número {item}"
+          ]
+        },
+        {
+          "name": "qtdProdutoCompraIntent",
+          "slots": [
+            {
+              "name": "qtd",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "a quantidade vai ser {qtd}",
+            "a quantidade é {qtd}"
+          ]
+        },
+        {
+          "name": "finalizarCompraIntent",
+          "slots": [],
+          "samples": [
+            "concluir venda",
+            "finalizar venda"
+          ]
+        },
+        {
+          "name": "metodoPagamentoIntent",
+          "slots": [
+            {
+              "name": "pagamento",
+              "type": "pagamento"
+            }
+          ],
+          "samples": [
+            "pagar no {pagamento}"
+          ]
+        },
+        {
+          "name": "contaAPagarIntent",
+          "slots": [],
+          "samples": [
+            "lance uma conta a pagar",
+            "lançar uma uma conta a pagar"
+          ]
+        },
+        {
+          "name": "listarFornecedorIntent",
+          "slots": [
+            {
+              "name": "fornecedor",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "o fornecedor é {fornecedor}"
+          ]
+        },
+        {
+          "name": "escolheFornecedorIntent",
+          "slots": [
+            {
+              "name": "numero_fornecedor",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "o fornecedor de número {numero_fornecedor}",
+            "O fornecedor número {numero_fornecedor}"
+          ]
+        },
+        {
+          "name": "numeroDocumentoFaturaIntent",
+          "slots": [
+            {
+              "name": "num_um",
+              "type": "AMAZON.PhoneNumber"
+            },
+            {
+              "name": "num_dois",
+              "type": "AMAZON.PhoneNumber"
+            },
+            {
+              "name": "num_tres",
+              "type": "AMAZON.PhoneNumber"
+            }
+          ],
+          "samples": [
+            "o número do documento é {num_um} ",
+            "o número do documento é {num_um} {num_dois} ",
+            "o número do documento é {num_um} {num_dois} {num_tres}"
+          ]
+        },
+        {
+          "name": "descricaoFaturaIntent",
+          "slots": [
+            {
+              "name": "descricao",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "a descrição vai ser {descricao}",
+            "a descrição é {descricao}"
+          ]
+        },
+        {
+          "name": "vencimentoParcelaIntent",
+          "slots": [
+            {
+              "name": "data",
+              "type": "AMAZON.DATE"
+            }
+          ],
+          "samples": [
+            "o vencimento é em {data}",
+            "o vencimento será em {data}"
+          ]
+        },
+        {
+          "name": "cadastraFornecedorIntent",
+          "slots": [
+            {
+              "name": "cnpj_um",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_dois",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_tres",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_quatro",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "cnpj_cinco",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "cadastrar fornecedor com cnpj {cnpj_um} {cnpj_dois} {cnpj_tres} {cnpj_quatro} {cnpj_cinco}",
+            "cadastrar novo fornecedor com cnpj {cnpj_um} {cnpj_dois} {cnpj_tres} {cnpj_quatro} {cnpj_cinco}",
+            "cadastrar um novo fornecedor com cnpj {cnpj_um} {cnpj_dois} {cnpj_tres} {cnpj_quatro} {cnpj_cinco}"
+          ]
+        },
+        {
+          "name": "dinheiroDisponivelIntent",
+          "slots": [],
+          "samples": [
+            "quanto dinheiro eu tenho disponível"
+          ]
+        },
+        {
+          "name": "mostraSaldoIntent",
+          "slots": [
+            {
+              "name": "banco",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "qual é o meu saldo bancário em {banco}",
+            "qual é o meu saldo bancário no {banco}",
+            "qual o meu saldo bancário em {banco}",
+            "qual o meu saldo bancário na {banco}",
+            "qual o meu saldo bancário no {banco}"
+          ]
+        },
+        {
+          "name": "markupIntent",
+          "slots": [
+            {
+              "name": "produto",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "qual é a margem do produto {produto}",
+            "qual a margem do produto {produto}",
+            "qual margem do produto {produto}"
+          ]
+        },
+        {
+          "name": "estoqueDoisIntent",
+          "slots": [
+            {
+              "name": "nome_item",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mostra o stock da  {nome_item}",
+            "qual é o stock da {nome_item}",
+            "qual é o stock do  {nome_item}",
+            "qual o stock do  {nome_item}",
+            "mostre o stock do  {nome_item}",
+            "mostra o estoque do  {nome_item}"
+          ]
+        },
+        {
+          "name": "tenhoParaReceberHojeIntent",
+          "slots": [],
+          "samples": [
+            "o que tenho para receber hoje",
+            "o que eu tenho para receber hoje"
           ]
         }
       ],
@@ -351,15 +607,9 @@
         {
           "values": [
             {
-              "id": "2",
-              "name": {
-                "value": "e-mail"
-              }
-            },
-            {
               "id": "1",
               "name": {
-                "value": "sms"
+                "value": "e-mail"
               }
             },
             {
@@ -370,9 +620,32 @@
             }
           ],
           "name": "meio"
+        },
+        {
+          "values": [
+            {
+              "id": "2",
+              "name": {
+                "value": "cartão de débito"
+              }
+            },
+            {
+              "id": "1",
+              "name": {
+                "value": "cartão de crédito"
+              }
+            },
+            {
+              "id": "0",
+              "name": {
+                "value": "dinheiro"
+              }
+            }
+          ],
+          "name": "pagamento"
         }
       ]
     }
   },
-  "version": "76"
+  "version": "120"
 }

@@ -17,18 +17,12 @@ from datetime import date, timedelta
 import requests
 import json
 
+from money_util import money_util
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "XXXX"
-codEmpresa = "XXXXXX"
-codApp = "XX"
-
-url_base = "https://app.teste.virtuozo.com.br/api/v1/"
-
-
-imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2N6x19.png")
 
 class cobrancaIntentHandler(AbstractRequestHandler):
     
@@ -37,12 +31,19 @@ class cobrancaIntentHandler(AbstractRequestHandler):
     
     def handle(self, handler_input):
         
+        session_attr = handler_input.attributes_manager.session_attributes
+        
+        
+        chave_sistema = session_attr['chave_sistema']
+        codEmpresa = session_attr['cod_empresa'] 
+        
         card_text = ""
         speak_output = ""
         session_attr = handler_input.attributes_manager.session_attributes
         slots = handler_input.request_envelope.request.intent.slots
         periodo = slots['periodo'].resolutions.resolutions_per_authority[0].values[0].value.id
         
+        MU = money_util()
         
         header = {
             "Content-Type": "application/json",
@@ -79,7 +80,7 @@ class cobrancaIntentHandler(AbstractRequestHandler):
                 "dtPesquisa": 1
             }
         
-        url = "https://app.teste.virtuozo.com.br/api/v1/pdvs/faturas/"
+        url = session_attr['base_url']+"pdvs/faturas/"
         
         lista_devedores = []
         
@@ -97,13 +98,13 @@ class cobrancaIntentHandler(AbstractRequestHandler):
                     
                     for parcela in dados_json['parcelas']:
                         
-                        card_text += card_text + "\nNome: {0} Valor: {1} Vencimento: {2}\n".format(parcela['razaoSocial'], parcela['valorTotal'], parcela['dataVencimento'])
+                        card_text += card_text + "\nNome: {0} Valor: {1} Vencimento: {2}\n".format(parcela['razaoSocial'], MU.moneyToText(parcela['valorTotal']), parcela['dataVencimento'])
                         lista_devedores.append({ "nome":parcela['razaoSocial'], "vencimento":parcela['dataVencimento'], "valor":parcela['valorTotal'], "codigo": parcela['codPessoaRef'] })
                     
                     session_attr['devedores'] = lista_devedores
                     session_attr['estado'] = 300
                     
-                    speak_output = "Encontrei {0} cobranças para fazer. A cobrança deve ser feita por e-mail?, whatsapp? ou SMS?".format(len(lista_devedores))
+                    speak_output = "Encontrei {0} cobranças para fazer. A cobrança deve ser feita por e-mail? ou whatsapp?".format(len(lista_devedores))
                     
                 else:
                     speak_output = "Ouve um erro na conexão"
@@ -122,7 +123,7 @@ class cobrancaIntentHandler(AbstractRequestHandler):
         return (
                 handler_input.response_builder
                 .speak(speak_output)
-                .set_card(StandardCard("Cobrança", card_text, imagem_padrao))
+                .set_card(StandardCard("Cobrança", card_text, session_attr['imagem_padrao']))
                 .ask("Posso ajudar em mais alguma coisa?")
                 .response
         )
@@ -132,8 +133,8 @@ class cobrancaIntentHandler(AbstractRequestHandler):
 def manda_msg(num, msg):
     
     resultado = "Erro ao enviar mensagem"
-    token = "XXXXXXXXXX"
-    service_id = "XXXXXXXXXX"
+    token = "INSERIR TOKEN DA API DIGISAC"
+    service_id = "INSERIR SERVICE ID DA API DIGISAC"
 
     header = {
         "Content-Type": "application/json",
@@ -147,7 +148,7 @@ def manda_msg(num, msg):
         "serviceId": service_id
     }
 
-    url = "https://gigatron-api.digisac.app/v1/messages"
+    url = "INSERIR URL DA API DIGISAC"
     resposta = requests.post(url, headers=header, json=json_data)
 
     if resposta.status_code == 200:
@@ -188,7 +189,7 @@ class meioIntentHandler(AbstractRequestHandler):
                 for devedor in devedores:
                     
                     params = { "query":devedor["codigo"]}
-                    url = "http://app.teste.virtuozo.com.br/api/v1/pessoas/0"
+                    url =  session_attr['base_url'] + "/pessoas/0"
                     resposta = requests.get(url, headers=header, params=params)
 
                     if resposta.status_code == 200:
@@ -206,8 +207,6 @@ class meioIntentHandler(AbstractRequestHandler):
                                 
                                 speak_output = speak_output + "{0} não tem um tefelone cadastrado. ".format(devedor["nome"])
                                 card_text = card_text + "{0} não tem um tefelone cadastrado. \n".format(devedor["nome"])
-                                
-                            
                 
                 
                 
@@ -222,7 +221,7 @@ class meioIntentHandler(AbstractRequestHandler):
         return (
                 handler_input.response_builder
                 .speak(speak_output)
-                .set_card(StandardCard("Cobrança", card_text, imagem_padrao))
+                .set_card(StandardCard("Cobrança", card_text, session_attr['imagem_padrao']))
                 .ask("Posso ajudar em mais alguma coisa?")
                 .response
         )

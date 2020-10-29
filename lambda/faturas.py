@@ -17,18 +17,12 @@ from datetime import date, timedelta
 import requests
 import json
 
+from money_util import money_util
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "XXXX"
-codEmpresa = "XXXXXX"
-codApp = "XX"
-
-url_base = "https://app.teste.virtuozo.com.br/api/v1/"
-
-
-imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2N6x19.png")
 
 class faturasHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
@@ -36,6 +30,11 @@ class faturasHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("faturaIntent")(handler_input)
 
     def handle(self, handler_input):
+        
+        session_attr = handler_input.attributes_manager.session_attributes
+        
+        chave_sistema = session_attr['chave_sistema']
+        codEmpresa = session_attr['cod_empresa'] 
         
         header =  {
             "Content-Type": "application/json",
@@ -50,9 +49,11 @@ class faturasHandler(AbstractRequestHandler):
         
         
         card_text = ""
-        img = imagem_padrao
-        url = url_base + "pdvs/faturas/"
+        url = session_attr['base_url']+ "/pdvs/faturas/"
         resposta = requests.get(url, headers=header, params=params)
+        
+        MU = money_util()
+            
         
         if resposta.status_code == 200:
             speak_output = "Aqui estão suas faturas a pagar. "
@@ -63,23 +64,12 @@ class faturasHandler(AbstractRequestHandler):
                 for parcela in dados_json['parcelas']:
                     
                     fornecedor = parcela['razaoSocial']
-                    valor = float(parcela['valorTotal'])
                     
-                    reais = round(int(valor))
-                    centavos = (valor - reais) * 100
-                    centavos = str(round(centavos))
-                    reais = str(reais)
+                    valor_texto = MU.moneyToText(parcela['valorTotal'])
+                    valor_fala = MU.moneyToSpeak(parcela['valorTotal'])
                     
-                    if len(centavos) > 2:
-                        centavos = centavos[:1]
-                        
-                    if int(centavos) > 0:
-                        speak_output = speak_output + "{0} Reais e {1} centavos para {2}. ".format(reais, str(centavos), fornecedor)
-                        card_text = card_text +"Valor: R${0},{1}        Vencimento: {2}     Fornecedor: {3}\n\n".format(reais, centavos, parcela['dataVencimento'], parcela['razaoSocial'])
-                    else:
-                        speak_output = speak_output + "{0} Reais para {1}. ".format(reais, fornecedor)   
-                        card_text = card_text +"Valor: R${0},00        Vencimento: {1}     Fornecedor: {2}\n\n".format(reais, parcela['dataVencimento'], parcela['razaoSocial'])
-                    
+                    speak_output = speak_output + "{0} para {1}. ".format(valor_fala, fornecedor)
+                    card_text = card_text +"Valor: {0}        Vencimento: {1}     Fornecedor: {2}\n\n".format(valor_texto, parcela['dataVencimento'], parcela['razaoSocial'])
                     
             else:
                 speak_output = "Não achei nenhuma fatura a pagar."
@@ -91,7 +81,7 @@ class faturasHandler(AbstractRequestHandler):
         return (
             handler_input.response_builder
                 .speak(speak_output)
-                .set_card(StandardCard("Faturas", card_text, img))
+                .set_card(StandardCard("Faturas", card_text, session_attr['imagem_padrao']))
                 .ask("Posso ajudar em mais alguma coisa?")
                 .response
         )

@@ -13,6 +13,8 @@ from ask_sdk_model.ui.image import Image
 
 from ask_sdk_model import Response
 
+from money_util import money_util
+
 from datetime import date, timedelta
 import requests
 import json
@@ -21,14 +23,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "XXXX"
-codEmpresa = "XXXXXX"
-codApp = "XX"
-
-url_base = "https://app.teste.virtuozo.com.br/api/v1/"
-
-
-imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2N6x19.png")
 
 
 class pagamentoNoPeriodoHandler(AbstractRequestHandler):
@@ -38,7 +32,12 @@ class pagamentoNoPeriodoHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("pagamentoNoPeriodoIntent")(handler_input)
     
     def handle(self, handler_input):
+        session_attr = handler_input.attributes_manager.session_attributes
         
+        MU = money_util()
+        
+        chave_sistema = session_attr['chave_sistema']
+        codEmpresa = session_attr['cod_empresa'] 
         
         periodo = 4
         data_ini = ""
@@ -78,8 +77,8 @@ class pagamentoNoPeriodoHandler(AbstractRequestHandler):
             "dtPesquisa": 2
         }
         
-        img = imagem_padrao
-        url = url_base + "pdvs/faturas/"
+        
+        url = session_attr['base_url'] + "/pdvs/faturas/"
         resposta = requests.get(url, headers=header, params=params)
         
         speak_output = ""
@@ -103,27 +102,17 @@ class pagamentoNoPeriodoHandler(AbstractRequestHandler):
                 
                 
                 fornecedor = parcela['razaoSocial']
-                valor = float(parcela['valorParcela'])
                     
-                reais = round(int(valor))
-                centavos = int((valor - reais) * 100)
-                centavos = str(centavos)
-                reais = str(reais)
+                valor_texto = MU.moneyToText(parcela['valorParcela'])
+                valor_fala = MU.moneyToSpeak(parcela['valorParcela'])
                 
-                card_text = card_text + "\n\nValor: R${0}   Fornecedor: {1}".format(parcela['valorParcela'][:-1], parcela['razaoSocial'])
+                card_text = card_text + "\n\nValor: {0}   Fornecedor: {1}".format(valor_texto, fornecedor)
                 
                 
-                if len(centavos) > 2:
-                    centavos = centavos[:1]
-                
-                if int(centavos) > 0:
-                    speak_output = speak_output + "{0} Reais e {1} centavos para {2}. ".format(reais, centavos, fornecedor)
-                else:
-                    speak_output = speak_output + "{0} Reais para {1}. ".format(reais, fornecedor)
-                    
+                speak_output = speak_output + "{0} para {1}. ".format(valor_fala, fornecedor)
                 
                 for baixa in parcela['baixas']:
-                    valor_bruto = baixa['valorBruto'][:-1]
+                    valor_bruto = MU.moneyToText(baixa['valorBruto'])
                     
                     card_text = card_text +"\n\n * Data da Baixa: {0}    Valor Bruto: R${1}".format(baixa['dataBaixa'][:11], valor_bruto)
         
@@ -136,7 +125,7 @@ class pagamentoNoPeriodoHandler(AbstractRequestHandler):
         return (
                 handler_input.response_builder
                 .speak(speak_output)
-                .set_card(StandardCard("Pagamentos ", card_text, img))
+                .set_card(StandardCard("Pagamentos ", card_text, session_attr['imagem_padrao']))
                 .ask("Posso ajudar em mais alguma coisa?")
                 .response
             )
@@ -151,6 +140,13 @@ class pagamentoHojeHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("pagamentoHojeIntent")(handler_input)
     
     def handle(self, handler_input):
+        
+        session_attr = handler_input.attributes_manager.session_attributes
+        
+        MU = money_util()
+        
+        chave_sistema = session_attr['chave_sistema']
+        codEmpresa = session_attr['cod_empresa'] 
         
         hoje = date.today().strftime("%Y-%m-%d")
         
@@ -171,8 +167,8 @@ class pagamentoHojeHandler(AbstractRequestHandler):
         
         card_text = "Contas a pagar.\n Data: {0}\n\n".format(date.today().strftime("%d/%m/%Y"))
         
-        img = imagem_padrao
-        url = url_base + "pdvs/faturas/"
+        
+        url = session_attr['base_url'] + "/pdvs/faturas/"
         resposta = requests.get(url, headers=header, params=params)
         
         if resposta.status_code == 200:
@@ -187,25 +183,21 @@ class pagamentoHojeHandler(AbstractRequestHandler):
                 for parcela in dados_json['parcelas']:
                     
                     fornecedor = parcela['razaoSocial']
-                    valor = float(parcela['valorTotal'])
+                    
+                    valor_texto = MU.moneyToText(parcela['valorTotal'])
+                    valor_fala = MU.moneyToSpeak(parcela['valorTotal'])
                     
                     
-                    total += valor
-                    reais = round(int(valor))
-                    centavos = (valor - reais) * 100
-                    centavos = str(round(centavos))
+                    total += float(parcela['valorTotal'])
                     
-                    if len(centavos) > 2:
-                        centavos = centavos[:1]
                     
-                    if int(centavos) > 0:
-                        speak_output = speak_output + " {0} Reais e {1} centavos para {2}. ".format(str(reais), str(centavos), fornecedor)
-                        card_text = card_text + "\nFornecedor: {0}  Valor: R${1},{2}".format(fornecedor, str(reais), str(centavos))
-                    else:
-                        speak_output = speak_output + " {0} Reais para {2}. ".format(str(reais), fornecedor)
-                        card_text = card_text + "\nFornecedor: {0}  Valor: R${1},00".format(fornecedor, str(reais))
+                    
+                    speak_output = speak_output + " {0} para {1}. ".format(valor_fala, fornecedor)
+                    card_text = card_text + "\nFornecedor: {0}  Valor: {1}".format(fornecedor, valor_texto)
                 
-                card_text += "\n\nTotal: R${0}".format(total)
+                total_texto = MU.moneyToText(str(total))
+                
+                card_text += "\n\nTotal: {0}".format(total_texto)
                 
             else:
                 speak_output = "Você não tem pagamentos pra fazer hoje."
@@ -217,7 +209,7 @@ class pagamentoHojeHandler(AbstractRequestHandler):
         return(
             handler_input.response_builder
             .speak(speak_output)
-            .set_card(StandardCard("Pagamentos do dia.", card_text, img))
+            .set_card(StandardCard("Pagamentos do dia.", card_text, session_attr['imagem_padrao']))
             .ask("Posso ajudar em mais alguma coisa?")
             .response
             )

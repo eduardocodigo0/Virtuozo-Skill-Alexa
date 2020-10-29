@@ -21,15 +21,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "XXXX"
-codEmpresa = "XXXXXX"
-codApp = "XX"
-
-url_base = "https://app.teste.virtuozo.com.br/api/v1/"
-
-
-imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2N6x19.png")
-
 
 class estoqueIntentHandler(AbstractRequestHandler):
     
@@ -41,9 +32,11 @@ class estoqueIntentHandler(AbstractRequestHandler):
         
         speak_output = ""
         card_text = ""
-        
+        session_attr = handler_input.attributes_manager.session_attributes
         slots = handler_input.request_envelope.request.intent.slots
         codigo = slots['codigo'].value
+        chave_sistema = session_attr['chave_sistema']
+        codEmpresa = session_attr['cod_empresa'] 
         
         header =  {
             "Content-Type": "application/json",
@@ -59,19 +52,20 @@ class estoqueIntentHandler(AbstractRequestHandler):
         
         
         
-        url = url_base + "produtos"
+        url = session_attr['base_url'] + "/products/stockBalances"
         resposta = requests.get(url, headers=header, params=params)
         
         if resposta.status_code == 200:
-            produtos = resposta.json()['produtos']
+            produtos = resposta.json()['list']
             
-            speak_output = speak_output + "Esse é o estoque do produto de código {0}".format(codigo)
+            qtd = len(produtos)
+            speak_output = speak_output + "Eu encontrei {0} produtos com o código {1}.".format(qtd, codigo)
             
             for produto in produtos:
                 
-                speak_output = speak_output + ""
-                card_text = card_text + "Produto: {0}\n".format(produto['descrProduto'])
-                card_text = card_text + "Estoque minimo: {0}\n".format(produto['estoqueMinimo'])
+                speak_output = speak_output + " O produto {0} possui {1} unidades no estoque.".format(produto['descrProduto'], int(float(produto['saldo'])))
+                card_text = card_text + "\nProduto: {0}\n".format(produto['descrProduto'])
+                card_text = card_text + "Saldo do estoque: {0}\n".format(int(float(produto['saldo'])))
                 
         else:
             speak_output = "Não consegui achar o produto com o código {0}".format(codigo)
@@ -80,10 +74,71 @@ class estoqueIntentHandler(AbstractRequestHandler):
         return (
             handler_input.response_builder
                 .speak(speak_output)
-                .set_card(StandardCard("Estoque ", card_text, imagem_padrao))
+                .set_card(StandardCard("Estoque ", card_text, session_attr['imagem_padrao']))
                 .ask("Posso ajudar em mais alguma coisa?")
                 .response
         )
+
+
+class estoqueDoisIntentHandler(AbstractRequestHandler):
+    
+    def can_handle(self, handler_input):
         
+        return ask_utils.is_intent_name("estoqueDoisIntent")(handler_input)
+    
+    def handle(self, handler_input):
+        
+        speak_output = ""
+        card_text = ""
+        
+        session_attr = handler_input.attributes_manager.session_attributes
+        slots = handler_input.request_envelope.request.intent.slots
+        
+        pesquisa = slots['nome_item'].value
+        chave_sistema = session_attr['chave_sistema']
+        codEmpresa = session_attr['cod_empresa'] 
+        
+        header =  {
+            
+            "Content-Type": "application/json",
+            "AuthToken": chave_sistema,
+            "AuthEnterprise": codEmpresa
+            
+        }
+        
+        params = { 
+            
+            'texto':pesquisa
+            
+        }
+        
+        url = session_attr['base_url'] + "/products/stockBalances"
+        resposta = requests.get(url, headers=header, params=params)
+        
+        if resposta.status_code == 200:
+            
+            produtos = resposta.json()['list']
+            
+            qtd = len(produtos)
+            speak_output = speak_output + "Eu encontrei {0} produtos com o nome {1}.".format(qtd, pesquisa)
+            
+            for produto in produtos:
+                
+                speak_output = speak_output + " O produto {0} possui {1} unidades no estoque.".format(produto['descrProduto'], int(float(produto['saldo'])))
+                card_text = card_text + "\nProduto: {0}\n".format(produto['descrProduto'])
+                card_text = card_text + "Saldo do estoque: {0}\n".format(int(float(produto['saldo'])))
+                
+        else:
+            
+            speak_output = "Não consegui achar o produto com o código {0}".format(codigo)
+            card_text = "Produto não encontrado."
+            
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .set_card(StandardCard("Estoque ", card_text, session_attr['imagem_padrao']))
+                .ask("Posso ajudar em mais alguma coisa?")
+                .response
+        )
     
     

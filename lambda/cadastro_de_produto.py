@@ -21,14 +21,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-chave_sistema = "xxxx"
-codEmpresa = "xxxxx"
-codApp = "xx"
-
-url_base = "https://app.teste.virtuozo.com.br/api/v1/"
-
-
-imagem_padrao = Image("https://i.imgur.com/L2N6x19.png", "https://i.imgur.com/L2N6x19.png")
 
 
 class NovoProdutoIntentHandler(AbstractRequestHandler):
@@ -58,10 +50,10 @@ class NovoProdutoIntentHandler(AbstractRequestHandler):
         body = {
             "Datasets": "basic_data",
             "q": "ean{"+codigo+"}",
-            "AccessToken": "XXXX"
+            "AccessToken": session_attr['big_boost_key'] 
         }
             
-        url = "https://bigboost.bigdatacorp.com.br/products"
+        url = session_attr['big_boost_url'] + "/products"
         
         resposta = {}
         
